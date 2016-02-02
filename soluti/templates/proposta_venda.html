@@ -1,0 +1,85 @@
+{% extends "report.html" %}
+
+{% block title %}{{ propostavenda.loja }}{% endblock %}
+
+{% block content %}
+<h3>Dados Gerais</h3>
+<table>
+    <tr>
+        <td colspan="4">
+            <dl>
+                <dt>Cliente</dt>
+                {% if propostavenda.propostavendacliente %}
+                    <dd>{{ propostavenda.propostavendacliente.cadastro }}</dd>
+                {% else %}
+                    <dd>{{ propostavenda.propostavendalead.cadastro }}</dd>
+                {% endif %}
+            </dl>
+        </td>
+    </tr>
+    <tr>
+        <td><dl><dt>Empresa</dt><dd>{{ propostavenda.empresa }}</dd></dl></td>
+        <td><dl><dt>Vendedor</dt><dd>{{ propostavenda.vendedor }}</dd></dl></td>
+        <td><dl><dt>Status</dt><dd>{{ propostavenda.status }}</dd></dl></td>
+        <td><dl><dt>Data</dt><dd>{{ propostavenda.data }}</dd></dl></td>
+    </tr>
+</table>
+
+{% if propostavenda.propostavendaservico_set.exists %}
+    <h3>Serviços</h3>
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th class="align-left">Serviço</th>
+                <th class="align-right">Valor</th>
+            </tr>
+        </thead>
+        {% for servico in propostavenda.propostavendaservico_set.all %}
+            <tr>
+                <td>{{ servico.servico }}</td>
+                <td class="align-right">{{ servico.valor }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+{% if propostavenda.propostavendaproduto_set.exists %}
+    <h3>Produtos</h3>
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th class="align-left">Produto</th>
+                <th>Quantidade</th>
+                <th class="align-right">Valor Total</th>
+            </tr>
+        </thead>
+        {% for produto in propostavenda.propostavendaproduto_set.all %}
+            <tr>
+                <td>{{ produto.produto }}</td>
+                <td class="align-center">{{ produto.quantidade }}</td>
+                <td class="align-right">{{ produto.valor }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+<h3>Pagamento</h3>
+<table>
+    <tr>
+        <td><dl><dt>Forma de Pagamento</dt><dd>{{ propostavenda.forma_pagamento }}</dd></dl></td>
+        <td><dl><dt>Parcelas</dt><dd>{{ propostavenda.parcelas }}</dd></dl></td>
+        <td><dl><dt>Primeiro Vencimento</dt><dd>{{ propostavenda.vencimento }}</dd></dl></td>
+    </tr>
+</table>
+
+<h3>Dados Complementares</h3>
+<table>
+    <tr>
+        <td><dl><dt>Vantagens</dt><dd>{{ propostavenda.vantagens|default:"-" }}</dd></dl></td>
+    </tr>
+    <tr>
+        <td><dl><dt>Observações</dt><dd>{{ propostavenda.observacoes|default:"-" }}</dd></dl></td>
+    </tr>
+</table>
+
+{% endblock %}

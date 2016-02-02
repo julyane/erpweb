@@ -1,0 +1,14 @@
+*˜
+*.pyc
+._*
+.idea
+.settings/*
+.project
+.pydevproject
+*.swp
+sqlite.db
+mail/*
+media/*
+media/profiles/*
+myvenv/*
+settings.py

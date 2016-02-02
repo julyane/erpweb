@@ -1,0 +1,34 @@
+{% extends "template.html" %}
+
+{% block content_table %}
+
+{% for grupo in grupos %}
+    {% if grupo.permissions.exists %}
+        <table id="dataTable" class="table table-striped table-bordered table-hover">
+            <caption>{{ grupo }}</caption>
+            <thead>
+                <tr>
+                    <th>Permissão</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% regroup grupo.permissions.all by content_type as permissoes %}
+                {% for content_type in permissoes %}
+                    <tr>
+                        <td>{{ content_type.grouper }}</td>
+                        <td>
+                            <ul>
+                            {% for item in content_type.list %}
+                                <li>{{ item.name }}</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}
